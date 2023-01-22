@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class GreetingController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RestServiceApplication.class);
-	private static final String template = "Hello, %s!";
+	private static final String template = "Hello there, %s!";
 	private final AtomicLong counter = new AtomicLong();
 	
 	@Autowired
