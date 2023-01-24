@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springcicd
+spec:
+  selector:
+    matchLabels:
+      app: springcicd
+  replicas: 1
+  template: # template for the pods
+    metadata:
+      labels:
+        app: springcicd
+    spec:
+      containers:
+      - name: springcicd
+        image: ${REPOSITORY_TAG}
+        # Using this as a way to avoid having to bother pushing images to registry.
+        imagePullPolicy: Never
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springcicd
+
+spec:
+  # This defines which pods are going to be represented by this Service
+  # The service becomes a network endpoint for either other services
+  # or maybe external users to connect to (eg browser)
+  selector:
+    app: springcicd
+
+  ports:
+    - name: http
+      port: 8080
+
+  type: LoadBalancer
